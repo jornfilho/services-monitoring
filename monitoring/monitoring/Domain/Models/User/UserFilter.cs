@@ -7,6 +7,8 @@ namespace monitoring.Domain.Models.User
     public class UserFilter
     {
         public IList<string> Ids { get; private set; }
+        public string Email { get; set; }
+
 
         public UserFilter SetIds(IList<string> ids)
         {
@@ -33,11 +35,27 @@ namespace monitoring.Domain.Models.User
             return this;
         }
 
+        public UserFilter SetEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return this;
+
+            if (!email.IsValidEmail())
+                return this;
+
+            this.Email = email;
+
+            return this;
+        }
+
         public bool HasFilter()
         {
             if (this.Ids != null && this.Ids.Any())
                 return true;
 
+            if (!string.IsNullOrEmpty(this.Email))
+                return true;
+            
             return false;
         }
     }

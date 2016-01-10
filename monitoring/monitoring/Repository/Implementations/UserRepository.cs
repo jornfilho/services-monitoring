@@ -6,42 +6,81 @@
     using Database.MongoDb;
     using Domain.Interfaces.Repositories;
     using Domain.Models.User;
+    using Models.User;
     using MongoDB.Bson;
+    using MongoDB.Bson.Serialization;
     using MongoDB.Driver;
 
     public class UserRepository : IUserRepository
     {
-        public IList<User> Get(UserFilter filterData, int take, int skip)
+        public IList<User> GetUsers(UserFilter filterData, int take, int skip)
         {
             var mongo = MongoDb.OpenConnection();
 
-            var query = GetUserQuery(filterData);
+            var query = GetUserQuery(filterData) ?? new BsonDocument();
 
             var collection = mongo.GetCollection<BsonDocument>(CollectionsEnum.users.ToString());
             var users = collection
                 .Find(query)
                 .Skip(skip)
                 .Limit(take)
+                .ToList()
+                .Select(u => BsonSerializer.Deserialize<UserMongoMap>(u).GetUserModel())
                 .ToList();
 
-            return null;
+            return users;
         }
 
-        
-
-        public long GetCount(UserFilter filterData)
+        public long GetUsersCount(UserFilter filterData)
         {
-            throw new NotImplementedException();
+            var mongo = MongoDb.OpenConnection();
+
+            var query = GetUserQuery(filterData) ?? new BsonDocument();
+
+            var collection = mongo.GetCollection<BsonDocument>(CollectionsEnum.users.ToString());
+            var usersCount = collection
+                .Count(query);
+
+            return usersCount;
         }
 
         public User Save(User user)
         {
-            throw new NotImplementedException();
+            if (user == null)
+                throw new ArgumentNullException("user", "Invalid user data");
+
+            var mongoDb = MongoDb.OpenConnection();
+
+            var data = new UserMongoMap().GetMongoMap(user);
+            var collection = mongoDb.GetCollection<BsonDocument>(CollectionsEnum.users.ToString());
+
+            if (data.IsNew)
+            {
+                collection.InsertOne(data.ToBsonDocument());
+                return data.GetUserModel();
+            }
+
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("_id", new BsonObjectId(data.Id));
+            collection.FindOneAndReplace(filter, data.ToBsonDocument());
+            
+            return data.GetUserModel();
         }
 
         public void Delete(UserFilter filterData)
         {
-            throw new NotImplementedException();
+            if (filterData == null || !filterData.HasFilter())
+                throw new ArgumentException("Invalid filter data");
+
+            var query = GetUserQuery(filterData) ?? new BsonDocument();
+
+            var mongoDb = MongoDb.OpenConnection();
+
+            var collection = mongoDb.GetCollection<BsonDocument>(CollectionsEnum.users.ToString());
+            var result = collection.DeleteMany(query);
+            if (result.DeletedCount == 0)
+                throw new Exception("There aren't any users with the criteria provided");
+
         }
 
         private static FilterDefinition<BsonDocument> GetUserQuery(UserFilter filterData)
@@ -59,6 +98,15 @@
             {
                 var arrayIds = filterData.Ids.Select(i => new BsonObjectId(new ObjectId(i))).ToArray();
                 filter = builder.Eq("_id", new BsonDocument("$in", new BsonArray(arrayIds)));
+            }
+            #endregion
+
+            #region email
+            if (!string.IsNullOrEmpty(filterData.Email))
+            {
+                filter = filter == null
+                    ? builder.Eq("email", new BsonString(filterData.Email))
+                    : filter & builder.Eq("email", new BsonString(filterData.Email));
             }
             #endregion
 

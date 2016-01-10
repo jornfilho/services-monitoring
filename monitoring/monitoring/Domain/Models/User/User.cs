@@ -73,7 +73,7 @@
             ValidateRepositoryInstance(repository);
             this.CleanModel();
 
-            var users = repository.Get(filterData, 1, 0);
+            var users = repository.GetUsers(filterData, 1, 0);
             if (users == null || !users.Any())
                 return this;
 
@@ -93,6 +93,7 @@
         public User Save(IUserRepository repository)
         {
             ValidateRepositoryInstance(repository);
+            this.ValidateExistentEmail(repository);
 
             var ready = this.IsReadyToSave();
             if (!ready)
@@ -100,6 +101,29 @@
 
             var user = repository.Save(this);
             return user;
+        }
+
+        private void ValidateExistentEmail(IUserRepository repository)
+        {
+            var filter = new UserFilter().SetEmail(this.Email);
+
+            if (string.IsNullOrEmpty(this.Id))
+            {
+                var count = repository.GetUsersCount(filter);
+                if(count > 0)
+                    throw new ArgumentException("There is another user with the same email");
+
+                return;
+            }
+
+            var users = repository.GetUsers(filter, 2, 0);
+            if (users == null || !users.Any())
+                return;
+
+            if (users.All(u => u.Id == this.Id))
+                return;
+
+            throw new ArgumentException("There is another user with the same email");
         }
 
         public void Delete(UserFilter filterData, IUserRepository repository)

@@ -43,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -71,6 +72,7 @@
     <Compile Include="Repository\Implementations\UserRepository.cs" />
     <Compile Include="Repository\Models\Services\ServiceMongoMap.cs" />
     <Compile Include="Repository\Models\User\UserMongoMap.cs" />
+    <Compile Include="Utils\Validators\EmailValidator.cs" />
     <Compile Include="Utils\Validators\MongoObjectIdValidator.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -5,9 +5,9 @@
 
     public interface IUserRepository
     {
-        IList<User> Get(UserFilter filterData, int take, int skip);
+        IList<User> GetUsers(UserFilter filterData, int take, int skip);
 
-        long GetCount(UserFilter filterData);
+        long GetUsersCount(UserFilter filterData);
 
         User Save(User user);
 

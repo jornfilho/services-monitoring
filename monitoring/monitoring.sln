@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "robot", "robot\robot.csproj", "{6971D998-5BD7-4334-998F-95A30331C86D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monitoring.test", "monitoring.test\monitoring.test.csproj", "{CC0E6D16-B665-458A-822A-DA0ECE0B9BEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6971D998-5BD7-4334-998F-95A30331C86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6971D998-5BD7-4334-998F-95A30331C86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6971D998-5BD7-4334-998F-95A30331C86D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0E6D16-B665-458A-822A-DA0ECE0B9BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0E6D16-B665-458A-822A-DA0ECE0B9BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0E6D16-B665-458A-822A-DA0ECE0B9BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0E6D16-B665-458A-822A-DA0ECE0B9BEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

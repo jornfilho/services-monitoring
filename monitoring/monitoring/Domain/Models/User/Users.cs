@@ -20,7 +20,7 @@
 
             this.Pagination = pagination;
 
-            var usersCount = repository.GetCount(filterData);
+            var usersCount = repository.GetUsersCount(filterData);
             this.Pagination.SetResponseData(0);
             if (usersCount == 0)
             {
@@ -28,7 +28,7 @@
                 return this;
             }
 
-            var users = repository.Get(filterData, pagination.PageSize, this.Pagination.CurrentPage * this.Pagination.PageSize);
+            var users = repository.GetUsers(filterData, pagination.PageSize, this.Pagination.CurrentPage * this.Pagination.PageSize);
             this.UsersList = users;
             
             return this;
@@ -38,7 +38,7 @@
         {
             ValidateRepositoryInstance(repository);
 
-            var users = repository.Get(filterData, int.MaxValue, 0);
+            var users = repository.GetUsers(filterData, int.MaxValue, 0);
             return users;
         }
 

@@ -14,7 +14,7 @@
     {
         [BsonElement("_id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public BsonObjectId Id { get; set; }
+        public ObjectId Id { get; set; }
 
         [BsonElement("name")]
         [BsonRepresentation(BsonType.String)]
@@ -35,6 +35,10 @@
         [BsonElement("creation_time")]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime CreationTime { get; set; }
+
+        [BsonIgnore]
+        public bool IsNew { get; private set; }
+
 
         public User GetUserModel()
         {
@@ -65,9 +69,13 @@
             if (userData == null)
                 throw new ArgumentNullException("userData");
 
-            this.Id = string.IsNullOrEmpty(userData.Id)
-                ? ObjectId.GenerateNewId()
-                : new ObjectId(userData.Id);
+            if (string.IsNullOrEmpty(userData.Id))
+            {
+                this.IsNew = true;
+                this.Id = ObjectId.GenerateNewId();
+            }
+            else
+                this.Id = new ObjectId(userData.Id);
 
             this.Name = userData.Name;
             this.Email = userData.Email;
@@ -85,6 +93,7 @@
                 }
             }
 
+            this.Status = userData.Status.GetUserStatusEnumStringValue();
             this.CreationTime = userData.CreateTime;
 
             return this;
