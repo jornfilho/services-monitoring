@@ -1,10 +1,10 @@
-﻿namespace monitoring.Repository.Models.User
+﻿namespace monitoring.Repository.Models.Users
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain.Models.Services;
-    using Domain.Models.User;
+    using Domain.Models.Users;
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization.Attributes;
     using Services;

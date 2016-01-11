@@ -1,14 +1,14 @@
-﻿namespace monitoring.Domain.Models.User
+﻿namespace monitoring.Domain.Models.Services
 {
     using System;
     using Attributes;
     using Extensions.Enum.Attribute;
 
-    public static class UserStatusEnumExtensions
+    public static class PaymentFrequencyTypeExtensions
     {
-        public static UserStatusEnum GetUserStatusEnum(this string strValue)
+        public static PaymentFrequencyTypeEnum GetPaymentFrequencyTypeEnum(this string strValue)
         {
-            foreach (UserStatusEnum item in Enum.GetValues(typeof(UserStatusEnum)))
+            foreach (PaymentFrequencyTypeEnum item in Enum.GetValues(typeof(PaymentFrequencyTypeEnum)))
             {
                 if (item.GetCustomEnumAttributeValue<StringValueAttribute, string>() == strValue)
                     return item;
@@ -17,10 +17,10 @@
                     return item;
             }
 
-            return UserStatusEnum.Undefined;
+            return PaymentFrequencyTypeEnum.Undefined;
         }
 
-        public static string GetUserStatusEnumStringValue(this UserStatusEnum enumValue)
+        public static string GetPaymentFrequencyTypeStringValue(this PaymentFrequencyTypeEnum enumValue)
         {
             return enumValue.GetCustomEnumAttributeValue<StringValueAttribute, string>();
         }

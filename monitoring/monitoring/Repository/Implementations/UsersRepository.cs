@@ -5,13 +5,13 @@
     using System.Linq;
     using Database.MongoDb;
     using Domain.Interfaces.Repositories;
-    using Domain.Models.User;
-    using Models.User;
+    using Domain.Models.Users;
+    using Models.Users;
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization;
     using MongoDB.Driver;
 
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         public IList<User> GetUsers(UserFilter filterData, int take, int skip)
         {
@@ -107,6 +107,16 @@
                 filter = filter == null
                     ? builder.Eq("email", new BsonString(filterData.Email))
                     : filter & builder.Eq("email", new BsonString(filterData.Email));
+            }
+            #endregion
+
+            #region status
+            if (filterData.StatusList != null && filterData.StatusList.Any())
+            {
+                var arrayStatus = filterData.StatusList.Select(i => i.GetUserStatusEnumStringValue()).ToArray();
+                filter = filter == null
+                    ? builder.Eq("status", new BsonDocument("$in", new BsonArray(arrayStatus)))
+                    : filter & builder.Eq("status", new BsonDocument("$in", new BsonArray(arrayStatus)));
             }
             #endregion
 

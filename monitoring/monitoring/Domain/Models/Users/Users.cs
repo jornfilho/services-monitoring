@@ -1,4 +1,4 @@
-﻿namespace monitoring.Domain.Models.User
+﻿namespace monitoring.Domain.Models.Users
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
         public Pagination Pagination { get; private set; }
         
 
-        public Users GetUsersPaginated(UserFilter filterData, Pagination pagination, IUserRepository repository)
+        public Users GetUsersPaginated(UserFilter filterData, Pagination pagination, IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
 
@@ -34,7 +34,7 @@
             return this;
         }
 
-        public IList<User> GetUsersAll(UserFilter filterData, IUserRepository repository)
+        public IList<User> GetUsersAll(UserFilter filterData, IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
 
@@ -43,7 +43,7 @@
         }
 
 
-        private static void ValidateRepositoryInstance(IUserRepository repository)
+        private static void ValidateRepositoryInstance(IUsersRepository repository)
         {
             if (repository == null)
                 throw new ArgumentNullException("repository", "Invalid repository instance");

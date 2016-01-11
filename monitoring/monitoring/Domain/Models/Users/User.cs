@@ -1,4 +1,4 @@
-﻿namespace monitoring.Domain.Models.User
+﻿namespace monitoring.Domain.Models.Users
 {
     using System;
     using System.Collections.Generic;
@@ -68,7 +68,7 @@
 
 
 
-        public User Get(UserFilter filterData, IUserRepository repository)
+        public User Get(UserFilter filterData, IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
             this.CleanModel();
@@ -90,7 +90,7 @@
             return this;
         }
 
-        public User Save(IUserRepository repository)
+        public User Save(IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
             this.ValidateExistentEmail(repository);
@@ -103,7 +103,7 @@
             return user;
         }
 
-        private void ValidateExistentEmail(IUserRepository repository)
+        private void ValidateExistentEmail(IUsersRepository repository)
         {
             var filter = new UserFilter().SetEmail(this.Email);
 
@@ -126,7 +126,7 @@
             throw new ArgumentException("There is another user with the same email");
         }
 
-        public void Delete(UserFilter filterData, IUserRepository repository)
+        public void Delete(UserFilter filterData, IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
 
@@ -136,7 +136,7 @@
             repository.Delete(filterData);
         }
 
-        public void Delete(IUserRepository repository)
+        public void Delete(IUsersRepository repository)
         {
             ValidateRepositoryInstance(repository);
 
@@ -147,7 +147,7 @@
 
 
 
-        private static void ValidateRepositoryInstance(IUserRepository repository)
+        private static void ValidateRepositoryInstance(IUsersRepository repository)
         {
             if (repository == null)
                 throw new ArgumentNullException("repository", "Invalid repository instance");

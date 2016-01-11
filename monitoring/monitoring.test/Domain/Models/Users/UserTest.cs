@@ -1,9 +1,9 @@
-﻿namespace monitoring.test.Domain.Models.User
+﻿namespace monitoring.test.Domain.Models.Users
 {
     using System.Collections.Generic;
     using monitoring.Domain.Interfaces.Repositories;
     using monitoring.Domain.Models.Services;
-    using monitoring.Domain.Models.User;
+    using monitoring.Domain.Models.Users;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repository.Implementations;
 
@@ -16,7 +16,7 @@
                            {
                                new Service().SetDataToCreate(ServiceTypeEnum.Netflix, "jornfilho", "010203")
                            };
-        private readonly IUserRepository repository = new UserRepository();
+        private readonly IUsersRepository repository = new UsersRepository();
 
         [TestMethod]
         public void CanCreateNewUser()

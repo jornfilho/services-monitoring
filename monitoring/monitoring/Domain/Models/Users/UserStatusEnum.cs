@@ -1,4 +1,4 @@
-﻿namespace monitoring.Domain.Models.User
+﻿namespace monitoring.Domain.Models.Users
 {
     using Attributes;
 

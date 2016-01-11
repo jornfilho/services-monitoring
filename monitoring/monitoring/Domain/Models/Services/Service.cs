@@ -7,6 +7,13 @@
         public ServiceTypeEnum Type { get; private set; }
         public string Username { get; private set; }
         public string Password { get; private set; }
+        
+        public PaymentFrequencyTypeEnum PlaymentFrequencyType { get; private set; }
+        public string CardType { get; private set; }
+        public string CardNumber { get; private set; }
+        public double? Price { get; private set; }
+        public DateTime? LastSyncDate { get; private set; }
+        
 
         public Service SetDataFromDatabase(ServiceTypeEnum type, string username, string password)
         {
@@ -24,6 +31,17 @@
             this.Type = type;
             this.Username = username;
             this.Password = password;
+
+            return this;
+        }
+
+        public Service SetNetflixData(PaymentFrequencyTypeEnum frequency, string cardType, string cardNumber, double? price, DateTime? lastSyncTime)
+        {
+            this.PlaymentFrequencyType = frequency;
+            this.CardType = cardType;
+            this.CardNumber = cardNumber;
+            this.Price = price;
+            this.LastSyncDate = lastSyncTime;
 
             return this;
         }

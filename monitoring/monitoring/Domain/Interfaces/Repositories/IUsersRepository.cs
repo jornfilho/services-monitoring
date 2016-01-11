@@ -1,9 +1,9 @@
 ﻿namespace monitoring.Domain.Interfaces.Repositories
 {
     using System.Collections.Generic;
-    using Models.User;
+    using Models.Users;
 
-    public interface IUserRepository
+    public interface IUsersRepository
     {
         IList<User> GetUsers(UserFilter filterData, int take, int skip);
 
